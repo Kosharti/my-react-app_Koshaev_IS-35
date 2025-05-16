@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'; 
 import Layout from './components/Layout/Layout';
-import Hero from './components/Hero/Hero';
-import ImageSlider from './components/ImageSlider/ImageSlider';
-import Testimonials from './components/Testimonials/Testimonials';
-import Features from './components/Features/Features';
-import Connect from './components/Connect/Connect';
-import Cta from './components/Cta/Cta';
-import CardList from './components/CardList/CardList';
+import HomePage from './components/pages/HomePage';
+import CardsPage from './components/pages/CardsPage';
+import NotFoundPage from './components/pages/NotFoundPage';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,38 +15,38 @@ function App() {
   }, []);
 
   return (
-    <>
-      {isLoading && (
-        <div className="loader">
-          <div className="loader-inner">
-            <div className="loader-line-wrap">
-              <div className="loader-line"></div>
-            </div>
-            <div className="loader-line-wrap">
-              <div className="loader-line"></div>
-            </div>
-            <div className="loader-line-wrap">
-              <div className="loader-line"></div>
-            </div>
-            <div className="loader-line-wrap">
-              <div className="loader-line"></div>
-            </div>
-            <div className="loader-line-wrap">
-              <div className="loader-line"></div>
+    <Router> 
+      <>
+        {isLoading && (
+          <div className="loader">
+            <div className="loader-inner">
+              <div className="loader-line-wrap">
+                <div className="loader-line"></div>
+              </div>
+              <div className="loader-line-wrap">
+                <div className="loader-line"></div>
+              </div>
+              <div className="loader-line-wrap">
+                <div className="loader-line"></div>
+              </div>
+              <div className="loader-line-wrap">
+                <div className="loader-line"></div>
+              </div>
+              <div className="loader-line-wrap">
+                <div className="loader-line"></div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <Layout>
-        <Hero />
-        <ImageSlider />
-        <Testimonials />
-        <CardList />
-        <Features />
-        <Connect />
-        <Cta />
-      </Layout>
-    </>
+        )}
+        <Layout>
+          <Routes> 
+            <Route path="/" element={<HomePage />} /> 
+            <Route path="/cards" element={<CardsPage />} /> 
+            <Route path="*" element={<NotFoundPage />} /> 
+          </Routes>
+        </Layout>
+      </>
+    </Router>
   );
 }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Card, { type CardData } from '../Card/Card';
 
-
 interface UserFromApi {
   id: number;
   name: string;
@@ -12,17 +11,20 @@ interface UserFromApi {
   };
 }
 
-const CardList: React.FC = () => {
+interface CardListProps {
+  limit?: number;
+}
+
+const CardList: React.FC<CardListProps> = ({ limit }) => {
   const [cards, setCards] = useState<CardData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentCardIndex, setCurrentCardIndex] = useState<number>(0); 
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users?_limit=3');
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users?_limit=${limit}`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -48,15 +50,7 @@ const CardList: React.FC = () => {
     };
 
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
-    }, 5000); 
-
-    return () => clearInterval(intervalId);
-  }, [cards.length]); 
+  }, [limit]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -66,21 +60,21 @@ const CardList: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
-  const currentCard = cards[currentCardIndex]; 
-
   return (
     <div>
-      {currentCard && ( 
+      {cards.map((card) => (
         <Card
-                  key={currentCard.id}
-                  name={currentCard.name}
-                  email={currentCard.email}
-                  phone={currentCard.phone}
-                  address={currentCard.address}
-                  imageUrl={currentCard.imageUrl}
-                  title={currentCard.title}
-                  aboutMe={currentCard.aboutMe} id={0}        />
-      )}
+          key={card.id}
+          name={card.name}
+          email={card.email}
+          phone={card.phone}
+          address={card.address}
+          imageUrl={card.imageUrl}
+          title={card.title}
+          aboutMe={card.aboutMe}
+          id={card.id}  
+        />
+      ))}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Footer.module.css';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const Footer: React.FC = () => {
         <strong>© 2023 Jobly.co Copyright and All rights reserved.</strong>
       </div>
       <div className={styles.copyright}>
-        <a href="#">Terms and Conditions</a> · <a href="#">Privacy Policy</a>
+        <Link to="*">Terms and Conditions</Link> · <Link to="*">Privacy Policy</Link>
       </div>
     </footer>
   );
